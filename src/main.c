@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 #include <cglm/cglm.h>
@@ -49,8 +49,11 @@ int main(int argc, char* argv[])
 
     glfwMakeContextCurrent(window);
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        perror("Failed to initialize GLAD\n");
+    GLenum err = glewInit();
+    if (GLEW_OK != err)
+        fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+
+    fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
     
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
